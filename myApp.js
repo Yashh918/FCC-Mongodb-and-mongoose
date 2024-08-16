@@ -1,5 +1,23 @@
+const mongoose = require('mongoose');
 require('dotenv').config();
 
+const clientOptions = {
+  useNewUrlParser: true,             // Handle URL parsing deprecation
+  useUnifiedTopology: true,          // Handle Server Discovery and Monitoring engine deprecation
+  writeConcern: { w: 'majority' },   // Properly set write concern options
+  appName: "Cluster0",               // Explicitly set the application name
+};
+
+async function connectDB() {
+  try {
+    const connectionInstance = await mongoose.connect(process.env.MONGO_URI, clientOptions);
+    console.log(`Successfully connected to MongoDB!! Connected to database: ${connectionInstance.connection.name}`);
+  } catch (error) {
+    console.error("Error connecting to MongoDB:", error);
+  }
+}
+
+connectDB()
 
 let Person;
 
